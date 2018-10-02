@@ -9,6 +9,7 @@ class Blog extends Component {
     state = {
         posts : [],
         selectedPostId : null,
+        err : false,
     }
     componentDidMount() {
         axios.get('https://jsonplaceholder.typicode.com/posts')
@@ -22,6 +23,11 @@ class Blog extends Component {
             })
             this.setState({
                 posts : updatedPosts
+            })
+        })
+        .catch((err) => {
+            this.setState({
+                err : true
             })
         });
     }
@@ -38,19 +44,26 @@ class Blog extends Component {
                             clicked={() => this.getSelectedIdHandler(post.id)}
                     />
         })
-        return (
-            <div>
-                <section className="Posts">
-                    {posts}
-                </section>
-                <section>
-                    <FullPost id={this.state.selectedPostId} />
-                </section>
-                <section>
-                    <NewPost />
-                </section>
-            </div>
-        );
+        if(!this.state.err) {
+            return (
+                <div>
+                    <section className="Posts">
+                        {posts}
+                    </section>
+                    <section>
+                        <FullPost id={this.state.selectedPostId} />
+                    </section>
+                    <section>
+                        <NewPost />
+                    </section>
+                </div>
+            );
+        } else {
+            return (
+                <p style={{textAlign : 'center'}}>Something went wrong, please try again!</p>
+            )
+        }
+        
     }
 }
 
