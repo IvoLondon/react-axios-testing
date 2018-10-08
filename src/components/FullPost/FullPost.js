@@ -6,14 +6,17 @@ class FullPost extends Component {
     state = {
         loadedPosts : null,
     }
-    componentDidUpdate() {
-        if(!this.state.loadedPosts || (this.state.loadedPosts && this.props.id != this.state.loadedPosts.id)) {
-            axios.get('/posts/' + this.props.id)
-            .then(response => {
-                this.setState({
-                    loadedPosts : response.data
-                })
-            });
+    componentDidMount() {
+        console.log(this.props);
+        if(this.props.match.params.id) {
+            if(!this.state.loadedPosts || (this.state.loadedPosts && this.props.id != this.state.loadedPosts.id)) {
+                axios.get('/posts/' + this.props.match.params.id)
+                .then(response => {
+                    this.setState({
+                        loadedPosts : response.data
+                    })
+                });
+            }
         }
         
     }
@@ -34,7 +37,7 @@ class FullPost extends Component {
                     <h1>{this.state.loadedPosts.title}</h1>
                     <p>{this.state.loadedPosts.body}</p>
                     <div className="Edit">
-                        <button onClick={this.deletePostHandler()} className="Delete">Delete</button>
+                        <button onClick={this.deletePostHandler} className="Delete">Delete</button>
                     </div>
                 </div>
 

@@ -7,6 +7,13 @@
     margin: 10px;
     box-sizing: border-box;
     cursor: pointer;
+    color:#050505;
+    text-decoration: none;
+}
+
+.Posts a {
+    color:#050505;
+    text-decoration: none;
 }
 
 .Post:hover,

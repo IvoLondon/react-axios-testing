@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Post from '../../components/Post/Post';
+import {withRouter, Link} from 'react-router-dom'
 import './Posts.css'
 
 class Posts extends Component {
@@ -30,17 +31,24 @@ class Posts extends Component {
         });
     }
     getSelectedIdHandler = (id) => {
-        this.setState({
-            selectedPostId : id
+        this.props.history.push({
+            pathname : '/' + id
         });
     }
+
     render() {
+        console.log(this.props);
     	let posts = this.state.posts.map(post => {
-            return <Post    key={post.id}
-                            title={post.title}
-                            author={post.author}
-                            clicked={() => this.getSelectedIdHandler(post.id)}
+            return(
+                // <Link to={"/" + post.id} key={post.id}>
+                    <Post    
+                        title={post.title}
+                        key={post.id}
+                        author={post.author}
+                        clicked={() => this.getSelectedIdHandler(post.id)}
                     />
+                // </Link>
+            )
         })
         if(!this.state.err) {
         	return (
@@ -56,4 +64,4 @@ class Posts extends Component {
     }
 }
 
-export default Posts;
+export default withRouter(Posts);
